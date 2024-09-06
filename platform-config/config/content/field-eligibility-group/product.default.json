@@ -1,0 +1,16 @@
+{
+  "$id": "product.default",
+  "$schema": "https://schema.yext.com/config/km/field-eligibility-group/v1",
+  "name": "Product-default",
+  "entityType": "product",
+  "fields": [
+    "c_coverPhoto",
+    "c_description",
+    "c_hero",
+    "c_pages_layouts",
+    "c_productCTA",
+    "c_productPromo",
+    "c_visualConfigurations"
+  ],
+  "required": []
+}

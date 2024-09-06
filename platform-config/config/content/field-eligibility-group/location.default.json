@@ -1,0 +1,16 @@
+{
+  "$id": "location.default",
+  "$schema": "https://schema.yext.com/config/km/field-eligibility-group/v1",
+  "name": "Location-default",
+  "entityType": "location",
+  "fields": [
+    "c_deliveryPromo",
+    "c_faqSection",
+    "c_hero",
+    "c_locationVisualConfiguration",
+    "c_pages_layouts",
+    "c_productSection",
+    "c_visualConfigurations"
+  ],
+  "required": []
+}
