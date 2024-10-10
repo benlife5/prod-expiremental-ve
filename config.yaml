@@ -12,7 +12,8 @@ siteStream:
   id: site-stream
   entityId: site
   fields:
-    - c_visualLayouts.c_visualConfiguration
+    - defaultLayouts.visualConfiguration
+    - pagesTheme.themeConfiguration
   localization:
     locales:
       - en
