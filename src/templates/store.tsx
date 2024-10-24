@@ -79,11 +79,14 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
 };
 
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
-  return "store/" + document.slug
-    ? document.slug
-    : `${document.locale}/${document.address.region}/${document.address.city}/${
-        document.address.line1
-      }-${document.id.toString()}`;
+  return (
+    "store/" +
+    (document.slug
+      ? document.slug
+      : `${document.locale}/${document.address.region}/${document.address.city}/${
+          document.address.line1
+        }-${document.id.toString()}`)
+  );
 };
 
 const Store: Template<TemplateRenderProps> = ({ document }) => {
