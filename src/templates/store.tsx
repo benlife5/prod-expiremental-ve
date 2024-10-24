@@ -79,7 +79,7 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
 };
 
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
-  return document.slug
+  return "store/" + document.slug
     ? document.slug
     : `${document.locale}/${document.address.region}/${document.address.city}/${
         document.address.line1
