@@ -1,18 +1,33 @@
 import type { Config } from "@measured/puck";
 import { HeroComponent as Hero, HeroProps } from "./components/Hero";
-import { ColumnsComponent as Columns, ColumnsProps } from "./components/Columns";
+import {
+  ColumnsComponent as Columns,
+  ColumnsProps,
+} from "./components/Columns";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import { CardComponent as Card, CardProps } from "./components/Card";
-import { StoreInfoCardComponent as StoreInfoCard, StoreInfoCardProps } from "./components/StoreInfoCard";
+import {
+  StoreInfoCardComponent as StoreInfoCard,
+  StoreInfoCardProps,
+} from "./components/StoreInfoCard";
 import { FAQComponent as FAQ, FAQProps } from "./components/FAQ";
-import {DeliveryPromoComponent as DeliveryPromo, DeliveryPromoProps} from "./components/DeliveryPromo";
+import {
+  DeliveryPromoComponent as DeliveryPromo,
+  DeliveryPromoProps,
+} from "./components/DeliveryPromo";
 import { BannerComponent as Banner, BannerProps } from "./components/Banner";
-import {HoursCardComponent as HoursCard, HoursCardProps} from "./components/HoursCard";
-import {PromoComponent as Promo, PromoProps} from "./components/Promo";
-import {FeaturedItemsComponent as FeaturedItems, FeaturedItemsProps} from "./components/FeaturedItems";
+import {
+  HoursCardComponent as HoursCard,
+  HoursCardProps,
+} from "./components/HoursCard";
+import { PromoComponent as Promo, PromoProps } from "./components/Promo";
+import {
+  FeaturedItemsComponent as FeaturedItems,
+  FeaturedItemsProps,
+} from "./components/FeaturedItems";
 
-import "@yext/visual-editor/style.css"
+import "@yext/visual-editor/style.css";
 
 type LocationProps = {
   Hero: HeroProps;
@@ -42,7 +57,34 @@ export const locationConfig: Config<LocationProps> = {
     FeaturedItems,
   },
   root: {
-    render: ({ children, puck: {isEditing} }) => {
+    render: ({ children, puck: { isEditing } }) => {
+      return (
+        <>
+          <Header isEditing={isEditing} />
+          {children}
+          <Footer isEditing={isEditing} />
+        </>
+      );
+    },
+    fields: {},
+  },
+};
+
+export const storeConfig: Config<LocationProps> = {
+  components: {
+    Hero,
+    Columns,
+    Card,
+    FAQ,
+    DeliveryPromo,
+    Banner,
+    HoursCard,
+    StoreInfoCard,
+    Promo,
+    FeaturedItems,
+  },
+  root: {
+    render: ({ children, puck: { isEditing } }) => {
       return (
         <>
           <Header isEditing={isEditing} />
@@ -57,4 +99,5 @@ export const locationConfig: Config<LocationProps> = {
 
 export const componentRegistry = new Map<string, Config<any>>([
   ["location", locationConfig],
+  ["store", storeConfig],
 ]);
