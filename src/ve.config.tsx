@@ -15,6 +15,8 @@ import {
   GetDirectionsProps,
   GridSectionComponent as GridSection,
   GridSectionProps,
+  HeadingTextComponent as HeadingText,
+  HeadingTextProps,
   HoursCardComponent as HoursCard,
   HoursCardProps,
   HoursStatusComponent as HoursStatus,
@@ -35,11 +37,6 @@ import {
 } from "./components/FeaturedItems";
 import { Header } from "./components/Header.js";
 import { Footer } from "./components/Footer.js";
-
-import {
-  HeadingTextComponent as HeadingText,
-  HeadingTextProps,
-} from "./components/HeadingText";
 
 type LocationProps = {
   GridSection: GridSectionProps;
