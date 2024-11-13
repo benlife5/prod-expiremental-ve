@@ -1,31 +1,36 @@
 import { ComponentConfig, Fields } from "@measured/puck";
-import { Heading, HeadingProps } from "./atoms/heading";
-import { BodyProps } from "./atoms/body";
-import { Section } from "./atoms/section";
 import { LocationStream } from "../types/autogen";
 import { LexicalRichText } from "@yext/pages-components";
-import { useDocument } from "@yext/pages/util";
-import { Body } from "./atoms/body";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from "./atoms/accordion";
-import { EntityField } from "@yext/visual-editor";
+import {
+  EntityField,
+  Body,
+  BodyProps,
+  Heading,
+  HeadingProps,
+  Section,
+  useDocument,
+  NumberOrDefault,
+  NumberFieldWithDefaultOption,
+} from "@yext/visual-editor";
 
 export type FAQProps = {
   sectionTitle: {
     text: string;
-    size: HeadingProps["size"];
+    fontSize: NumberOrDefault;
     color: HeadingProps["color"];
   };
   question: {
-    size: HeadingProps["size"];
+    fontSize: NumberOrDefault;
     color: HeadingProps["color"];
   };
   answer: {
-    size: BodyProps["size"];
+    fontSize: NumberOrDefault;
     weight: BodyProps["weight"];
   };
 };
@@ -39,14 +44,10 @@ const FAQFields: Fields<FAQProps> = {
         label: "Text",
         type: "text",
       },
-      size: {
-        label: "Size",
-        type: "radio",
-        options: [
-          { label: "Section", value: "section" },
-          { label: "Subheading", value: "subheading" },
-        ],
-      },
+      fontSize: NumberFieldWithDefaultOption({
+        label: "Font Size",
+        defaultCustomValue: 48,
+      }),
       color: {
         label: "Color",
         type: "radio",
@@ -62,14 +63,10 @@ const FAQFields: Fields<FAQProps> = {
     type: "object",
     label: "Question",
     objectFields: {
-      size: {
-        label: "Size",
-        type: "radio",
-        options: [
-          { label: "Section", value: "section" },
-          { label: "Subheading", value: "subheading" },
-        ],
-      },
+      fontSize: NumberFieldWithDefaultOption({
+        label: "Font Size",
+        defaultCustomValue: 48,
+      }),
       color: {
         label: "Color",
         type: "radio",
@@ -85,15 +82,10 @@ const FAQFields: Fields<FAQProps> = {
     type: "object",
     label: "Answer",
     objectFields: {
-      size: {
-        label: "Size",
-        type: "radio",
-        options: [
-          { label: "Small", value: "small" },
-          { label: "Base", value: "base" },
-          { label: "Large", value: "large" },
-        ],
-      },
+      fontSize: NumberFieldWithDefaultOption({
+        label: "Font Size",
+        defaultCustomValue: 16,
+      }),
       weight: {
         label: "Weight",
         type: "radio",
@@ -113,8 +105,13 @@ const FAQCard = ({ sectionTitle, question, answer }: FAQProps) => {
     <Section className="flex flex-col justify-center bg-white components">
       {sectionTitle && (
         <Heading
+          style={{
+            fontSize:
+              sectionTitle.fontSize === "default"
+                ? undefined
+                : sectionTitle.fontSize + "px",
+          }}
           level={1}
-          size={sectionTitle.size}
           color={sectionTitle.color}
           className="text-center"
         >
@@ -133,17 +130,30 @@ const FAQCard = ({ sectionTitle, question, answer }: FAQProps) => {
                   <AccordionTrigger>
                     <Heading
                       level={1}
-                      size={question.size}
+                      style={{
+                        fontSize:
+                          question.fontSize === "default"
+                            ? undefined
+                            : question.fontSize + "px",
+                      }}
                       color={question.color}
                     >
                       {faqItem.question}
                     </Heading>
                   </AccordionTrigger>
                   <AccordionContent>
-                    <Body size={answer.size} weight={answer.weight}>
+                    <Body
+                      style={{
+                        fontSize:
+                          answer.fontSize === "default"
+                            ? undefined
+                            : answer.fontSize + "px",
+                      }}
+                      weight={answer.weight}
+                    >
                       <LexicalRichText
                         nodeClassNames={{
-                          text: { bold: answer.weight!, base: answer.size! },
+                          text: { bold: answer.weight! },
                         }}
                         serializedAST={JSON.stringify(faqItem.answerV2.json)}
                       />
@@ -164,15 +174,15 @@ export const FAQComponent: ComponentConfig<FAQProps> = {
   defaultProps: {
     sectionTitle: {
       text: "Frequently Asked Questions",
-      size: "section",
+      fontSize: "default",
       color: "default",
     },
     question: {
-      size: "subheading",
+      fontSize: "default",
       color: "default",
     },
     answer: {
-      size: "base",
+      fontSize: "default",
       weight: "default",
     },
   },

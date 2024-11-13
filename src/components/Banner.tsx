@@ -1,25 +1,28 @@
 import {
-  EntityFieldType,
+  YextEntityField,
   resolveYextEntityField,
   YextEntityFieldSelector,
+  Body,
+  BodyProps,
+  useDocument,
+  NumberOrDefault,
+  NumberFieldWithDefaultOption,
 } from "@yext/visual-editor";
-import { BodyProps, Body } from "./atoms/body";
 import { ComponentConfig, Fields } from "@measured/puck";
 import { config } from "../templates/location";
-import { useDocument } from "@yext/pages/util";
 import { LocationStream } from "../types/autogen";
 
 export type BannerProps = {
-  text: EntityFieldType;
+  text: YextEntityField<string>;
   textAlignment: "justify-end" | "justify-start" | "justify-center";
-  textSize: BodyProps["size"];
+  fontSize: NumberOrDefault;
   fontWeight: BodyProps["weight"];
   textColor: BodyProps["color"];
-  backgroundColor: "bg-white" | "bg-primary" | "bg-secondary";
+  backgroundColor: "bg-white" | "bg-palette-primary" | "bg-palette-secondary";
 };
 
 const bannerFields: Fields<BannerProps> = {
-  text: YextEntityFieldSelector<typeof config>({
+  text: YextEntityFieldSelector<typeof config, string>({
     label: "Entity Field",
     filter: {
       types: ["type.string"],
@@ -34,15 +37,10 @@ const bannerFields: Fields<BannerProps> = {
       { label: "Right", value: "justify-end" },
     ],
   },
-  textSize: {
-    label: "Text Size",
-    type: "radio",
-    options: [
-      { label: "Small", value: "small" },
-      { label: "Base", value: "base" },
-      { label: "Large", value: "large" },
-    ],
-  },
+  fontSize: NumberFieldWithDefaultOption({
+    label: "Font Size",
+    defaultCustomValue: 16,
+  }),
   fontWeight: {
     label: "Font Weight",
     type: "radio",
@@ -65,8 +63,8 @@ const bannerFields: Fields<BannerProps> = {
     type: "radio",
     options: [
       { label: "Default", value: "bg-white" },
-      { label: "Primary", value: "bg-primary" },
-      { label: "Secondary", value: "bg-secondary" },
+      { label: "Primary", value: "bg-palette-primary" },
+      { label: "Secondary", value: "bg-palette-secondary" },
     ],
   },
 };
@@ -74,7 +72,7 @@ const bannerFields: Fields<BannerProps> = {
 const Banner = ({
   text,
   textAlignment,
-  textSize,
+  fontSize,
   fontWeight,
   textColor,
   backgroundColor,
@@ -83,7 +81,13 @@ const Banner = ({
   return (
     <div className={`Banner ${backgroundColor} components px-4 md:px-20 py-6`}>
       <div className={`flex ${textAlignment} items-center`}>
-        <Body color={textColor} weight={fontWeight} size={textSize}>
+        <Body
+          color={textColor}
+          weight={fontWeight}
+          style={{
+            fontSize: fontSize === "default" ? undefined : fontSize + "px",
+          }}
+        >
           {resolveYextEntityField(document, text)}
         </Body>
       </div>
@@ -95,11 +99,12 @@ export const BannerComponent: ComponentConfig<BannerProps> = {
   fields: bannerFields,
   defaultProps: {
     text: {
-      fieldName: "",
-      staticValue: "Banner Text",
+      field: "",
+      constantValue: "Banner Text",
+      constantValueEnabled: true,
     },
     textAlignment: "justify-center",
-    textSize: "base",
+    fontSize: "default",
     fontWeight: "default",
     textColor: "default",
     backgroundColor: "bg-white",
