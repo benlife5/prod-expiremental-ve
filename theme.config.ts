@@ -1,4 +1,10 @@
-import { ThemeConfig, visualEditorFonts } from "@yext/visual-editor";
+import {
+  ThemeConfig,
+  defaultFonts,
+  FontRegistry,
+  getFontWeightOptions,
+  constructFontSelectOptions,
+} from "@yext/visual-editor";
 
 const getColorOptions = () => {
   return [
@@ -10,26 +16,22 @@ const getColorOptions = () => {
   ];
 };
 
-const getWeightOptions = () => {
-  return [
-    { label: "Thin", value: "100" },
-    { label: "Extralight", value: "200" },
-    { label: "Light", value: "300" },
-    { label: "Normal", value: "400" },
-    { label: "Medium", value: "500" },
-    { label: "Semibold", value: "600" },
-    { label: "Bold", value: "700" },
-    { label: "Extrabold", value: "800" },
-    { label: "Black", value: "900" },
-  ];
+const fonts: FontRegistry = {
+  Georgia: {
+    italics: true,
+    minWeight: 400,
+    maxWeight: 900,
+    fallback: "serif",
+  },
+  ...defaultFonts,
 };
-
-const getFontOptions = () => {
-  return [
-    ...visualEditorFonts,
-    { label: "Georgia", value: `"Georgia", sans-serif` },
-    // other developer-defined fonts
-  ];
+const fontOptions = constructFontSelectOptions(fonts);
+const fontWeightOptions = (fontVariable?: string) => {
+  return () =>
+    getFontWeightOptions({
+      fontCssVariable: fontVariable,
+      fontList: fonts,
+    });
 };
 
 export const themeConfig: ThemeConfig = {
@@ -81,7 +83,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-heading1-fontFamily"),
         default: "700",
       },
       color: {
@@ -95,8 +97,8 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
-        default: "sans-serif",
+        options: fontOptions,
+        default: "'Georgia', serif",
       },
     },
   },
@@ -113,7 +115,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-heading2-fontFamily"),
         default: "700",
       },
       color: {
@@ -127,7 +129,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
+        options: fontOptions,
         default: "serif",
       },
     },
@@ -145,7 +147,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-heading3-fontFamily"),
         default: "700",
       },
       color: {
@@ -159,7 +161,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
+        options: fontOptions,
         default: "serif",
       },
     },
@@ -177,7 +179,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-heading4-fontFamily"),
         default: "700",
       },
       color: {
@@ -191,7 +193,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
+        options: fontOptions,
         default: "serif",
       },
     },
@@ -209,7 +211,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-heading5-fontFamily"),
         default: "700",
       },
       color: {
@@ -223,7 +225,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
+        options: fontOptions,
         default: "serif",
       },
     },
@@ -241,7 +243,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-heading6-fontFamily"),
         default: "700",
       },
       color: {
@@ -255,7 +257,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
+        options: fontOptions,
         default: "serif",
       },
     },
@@ -273,7 +275,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions("--fontFamily-body-fontFamily"),
         default: "400",
       },
       color: {
@@ -287,7 +289,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font",
         type: "select",
         plugin: "fontFamily",
-        options: getFontOptions(),
+        options: fontOptions,
         default: "serif",
       },
     },
@@ -334,7 +336,7 @@ export const themeConfig: ThemeConfig = {
         label: "Font Weight",
         type: "select",
         plugin: "fontWeight",
-        options: getWeightOptions(),
+        options: fontWeightOptions(),
         default: "400",
       },
       fontSize: {

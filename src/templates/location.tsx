@@ -63,13 +63,10 @@ export const transformProps = async (data: any) => {
   return resolveVisualEditorData(data, "location");
 };
 
-const h = `<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">`;
-
 export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
   document,
 }): HeadConfig => {
+  console.log(1, document._site.pagesTheme);
   return {
     title: document.name,
     charset: "UTF-8",
@@ -83,8 +80,14 @@ export const getHeadConfig: GetHeadConfig<TemplateRenderProps> = ({
         },
       },
     ],
-    other: applyTheme(document, themeConfig, h),
+    other: b(document),
   };
+};
+
+const b = (doc: any) => {
+  const a = applyTheme(doc, themeConfig);
+  console.log(a);
+  return a;
 };
 
 export const getPath: GetPath<TemplateProps> = ({ document }) => {
@@ -96,6 +99,7 @@ export const getPath: GetPath<TemplateProps> = ({ document }) => {
 };
 
 const Location: Template<TemplateRenderProps> = ({ document }) => {
+  console.log(2, document);
   const { visualTemplate } = document;
   return (
     <DocumentProvider value={document}>
